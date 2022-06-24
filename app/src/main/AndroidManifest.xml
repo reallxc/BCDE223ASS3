@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="nz.ac.arastudent.xil0393.bcde223helloworld">
+          package="nz.ac.arastudent.xil0393.bcde223ass3">
 
     <application
             android:allowBackup="true"
@@ -9,15 +9,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.BCDE223HelloWorld">
-        <activity android:name=".GameActivity"
-                  android:parentActivityName=".MainActivity">
+        <activity android:name="nz.ac.arastudent.xil0393.bcde223ass3.GameActivity"
+                  android:parentActivityName="nz.ac.arastudent.xil0393.bcde223ass3.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity" />
+                    android:value="nz.ac.arastudent.xil0393.bcde223ass3.MainActivity" />
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name="nz.ac.arastudent.xil0393.bcde223ass3.MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

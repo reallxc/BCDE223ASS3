@@ -1,6 +1,4 @@
-package nz.ac.arastudent.xil0393.bcde223helloworld;
-
-import android.util.Log;
+package nz.ac.arastudent.xil0393.bcde223ass3;
 
 public abstract class Player {
     int[] currentPosition = new int[2];

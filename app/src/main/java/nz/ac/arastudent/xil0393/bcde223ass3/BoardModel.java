@@ -1,6 +1,7 @@
-package nz.ac.arastudent.xil0393.bcde223helloworld;
+package nz.ac.arastudent.xil0393.bcde223ass3;
 
 public class BoardModel {
+    static final int numberOfGoal = 1;
     int[][] board;
     int[] goalPos = new int[2];
     private int width,height;

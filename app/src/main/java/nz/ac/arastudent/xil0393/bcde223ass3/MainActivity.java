@@ -1,9 +1,8 @@
-package nz.ac.arastudent.xil0393.bcde223helloworld;
+package nz.ac.arastudent.xil0393.bcde223ass3;
 
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;

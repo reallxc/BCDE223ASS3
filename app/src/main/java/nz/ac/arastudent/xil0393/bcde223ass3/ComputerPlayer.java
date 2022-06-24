@@ -1,4 +1,4 @@
-package nz.ac.arastudent.xil0393.bcde223helloworld;
+package nz.ac.arastudent.xil0393.bcde223ass3;
 
 public class ComputerPlayer extends Player {
     PathModel successPath;

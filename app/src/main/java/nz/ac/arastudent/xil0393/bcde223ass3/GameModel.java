@@ -1,7 +1,7 @@
 package nz.ac.arastudent.xil0393.bcde223ass3;
 
 public class GameModel {
-    BoardModel board;
+    BoardModel gameBoard;
     HumanPlayer humanPlayer;
     ComputerPlayer cPlayer;
     boolean solvableBoard = false;
@@ -42,9 +42,9 @@ public class GameModel {
         }
     }
     private void init() {
-        this.board = new BoardModel(this.height,this.width);
-        this.cPlayer = new ComputerPlayer(this.board);
-        this.humanPlayer = new HumanPlayer(board);
+        this.gameBoard = new BoardModel(this.height,this.width);
+        this.cPlayer = new ComputerPlayer(this.gameBoard);
+        this.humanPlayer = new HumanPlayer(this.gameBoard);
         prepareBoard();
     }
     private void prepareBoard() {
@@ -52,7 +52,7 @@ public class GameModel {
         do {
             this.cPlayer.myPath.clearPath();
             this.cPlayer.successPath.clearPath();
-            this.board.generateBoard();
+            this.gameBoard.generateBoard();
             this.cPlayer.resetPosition();
             this.cPlayer.tryNextMove(stepLowerLimit+2);
             //check if board is too easy
@@ -66,19 +66,6 @@ public class GameModel {
         } while (!this.solvableBoard);
         System.out.println("Got solvable maze after "+ count+" tries.");
         System.out.println("Best solution step: "+ this.cPlayer.successPath.getSteps());
-    }
-    public boolean controlPlayer(String direction) {
-        switch(direction) {
-            case "u":
-                return this.humanPlayer.nextMove(1);
-            case "d":
-                return this.humanPlayer.nextMove(2);
-            case "l":
-                return this.humanPlayer.nextMove(3);
-            case "r":
-                return this.humanPlayer.nextMove(4);
-        }
-        return false;
     }
     public boolean checkBestPath() {
         return this.humanPlayer.myPath.getSteps() <= this.cPlayer.successPath.getSteps();

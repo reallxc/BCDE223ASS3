@@ -39,8 +39,8 @@ public class GameActivity extends AppCompatActivity {
     private ImageView playerImage;
     private int boardSize, startCellID, goalReachedCount = 0;
     private boolean gameRunning = false;
-    private long timeWhenPaused;
-    private List<Integer> tvIDPath = new ArrayList<>();
+    private long timePaused;
+    private List<Integer> cellPath = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,13 +125,13 @@ public class GameActivity extends AppCompatActivity {
             gameTable.addView(tbr);
         }
         //Put player logo on start cell
-        this.tvIDPath.add(this.startCellID);
+        this.cellPath.add(this.startCellID);
         final TextView startCell = findViewById(startCellID);
         startCell.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 startCell.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                moveplayerImage(startCellID);
+                movePlayerImage(startCellID);
             }
         });
     }
@@ -140,9 +140,9 @@ public class GameActivity extends AppCompatActivity {
         Log.i(TAG, "Clicked " + x + ":" + y +", Number: " + number);
         if (this.game.gameBoard.getPositionNumber(this.game.humanPlayer.currentPosition)!=0) {
             if (game.humanPlayer.movePlayer(x,y)) {
-                moveplayerImage(cellID);
+                movePlayerImage(cellID);
                 updateStepLabel();
-                this.tvIDPath.add(cellID);
+                this.cellPath.add(cellID);
                 if (this.game.gameBoard.isGoalPosition(this.game.humanPlayer.currentPosition)) {
                     this.goalReachedCount += 1;
                     this.playWinAudio();
@@ -175,8 +175,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void moveplayerImage(int tvID) {
-        final boolean[] animXEnd = {false};
+    private void movePlayerImage(int tvID) {
         TextView tv = findViewById(tvID);
         TableRow tbr = (TableRow) tv.getParent();
         TableLayout tbl = findViewById(R.id.tableGame);
@@ -197,7 +196,7 @@ public class GameActivity extends AppCompatActivity {
     public void playbackGame(View view) {
         final Handler h = new Handler();
         final int steps = this.game.humanPlayer.myPath.getSteps();
-        List<Integer> path = this.tvIDPath;
+        List<Integer> path = this.cellPath;
         GameActivity ga = this;
         h.postDelayed(new Runnable()
         {
@@ -205,7 +204,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                ga.moveplayerImage(path.get(i));
+                ga.movePlayerImage(path.get(i));
                 i++;
                 if (i<=steps) {
                     h.postDelayed(this, 1000);
@@ -218,11 +217,11 @@ public class GameActivity extends AppCompatActivity {
         Chronometer timer = findViewById(R.id.textTimer);
         timer.setBase(SystemClock.elapsedRealtime());
         this.game.restartGame();
-        this.timeWhenPaused = 0;
+        this.timePaused = 0;
         this.gameRunning = true;
-        moveplayerImage(startCellID);
-        this.tvIDPath.clear();
-        this.tvIDPath.add(this.startCellID);
+        movePlayerImage(this.startCellID);
+        this.cellPath.clear();
+        this.cellPath.add(this.startCellID);
         updateStepLabel();
         timer.start();
     }
@@ -234,13 +233,13 @@ public class GameActivity extends AppCompatActivity {
         if (this.gameRunning) {
             gameTable.setVisibility(View.INVISIBLE);
             btn.setText("Resume");
-            this.timeWhenPaused = timer.getBase() - SystemClock.elapsedRealtime();
+            this.timePaused = timer.getBase() - SystemClock.elapsedRealtime();
             timer.stop();
             this.gameRunning = false;
         } else {
             gameTable.setVisibility(View.VISIBLE);
             btn.setText("Pause");
-            timer.setBase(SystemClock.elapsedRealtime() + this.timeWhenPaused);
+            timer.setBase(SystemClock.elapsedRealtime() + this.timePaused);
             timer.start();
             this.gameRunning = true;
         }
@@ -248,8 +247,8 @@ public class GameActivity extends AppCompatActivity {
 
     public void undoStep(View view) {
         if (this.game.humanPlayer.myPath.getSteps()>0) {
-            this.moveplayerImage(this.tvIDPath.get(this.game.humanPlayer.myPath.getSteps()-1));
-            this.tvIDPath.remove(this.game.humanPlayer.myPath.getSteps());
+            this.movePlayerImage(this.cellPath.get(this.game.humanPlayer.myPath.getSteps()-1));
+            this.cellPath.remove(this.game.humanPlayer.myPath.getSteps());
             this.game.humanPlayer.currentPosition = this.game.humanPlayer.myPath.goBackward();
             updateStepLabel();
         }

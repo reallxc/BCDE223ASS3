@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
                 int mazeSize = GameModel.getMazeSize(progress+1);
                 textDiff.setText(progress + 1 + " - " + mazeSize + " x " + mazeSize + " Maze");
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });

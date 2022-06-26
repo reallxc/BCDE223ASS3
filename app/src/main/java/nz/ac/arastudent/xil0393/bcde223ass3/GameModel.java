@@ -5,7 +5,7 @@ public class GameModel {
     HumanPlayer humanPlayer;
     ComputerPlayer cPlayer;
     boolean solvableBoard = false;
-    int difficulty,width,height,stepLowerLimit;
+    int difficulty,width,height,stepLowerLimit,stepUpperLimit;
     public GameModel(){
         this.setDifficulty(4);
         init();
@@ -16,18 +16,24 @@ public class GameModel {
     }
     private void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-        if (this.difficulty>=1&&this.difficulty<=3) {
+        if (difficulty>=1&&difficulty<=3) {
             this.width = 4;
             this.height = 4;
-            this.stepLowerLimit = 5 + difficulty;
-        } else if (this.difficulty>=4&&this.difficulty<=6) {
+            this.stepLowerLimit = difficulty * 3;
+            this.stepUpperLimit = difficulty * 3 + 3;
+//            1:3-5 steps  2:6-8 steps  3:9-11 steps
+        } else if (difficulty>=4&&difficulty<=6) {
             this.width = 6;
             this.height = 6;
-            this.stepLowerLimit = 1 + difficulty * 2;
-        } else if (this.difficulty>=7&&this.difficulty<=9) {
+            this.stepLowerLimit = difficulty * 2 + difficulty - 4;
+            this.stepUpperLimit = difficulty * 2 + difficulty - 1;
+//            4:8-10 steps  5:11-13 steps  6:14-16 steps
+        } else if (difficulty>=7&&difficulty<=9) {
             this.width = 8;
             this.height = 8;
-            this.stepLowerLimit = this.difficulty * 2;
+            this.stepLowerLimit = difficulty * 2 + difficulty - 7;
+            this.stepUpperLimit = difficulty * 2 + difficulty - 1;
+//            7:14-16 steps  8:17-19 steps  9:20-22 steps
         }
     }
     public static int getMazeSize(int difficulty) {
@@ -54,10 +60,10 @@ public class GameModel {
             this.cPlayer.successPath.clearPath();
             this.gameBoard.generateBoard();
             this.cPlayer.resetPosition();
-            this.cPlayer.tryNextMove(stepLowerLimit+2);
+            this.cPlayer.tryNextMove(stepUpperLimit);
             //check if board is too easy
             if (this.cPlayer.successPath.getSteps()!=0) {
-                if (this.cPlayer.successPath.getSteps()>=(stepLowerLimit-2))
+                if (this.cPlayer.successPath.getSteps()>=stepLowerLimit)
                 {
                     this.solvableBoard = true;
                 }
